@@ -8,3 +8,4 @@
 6. Replace root with your own MySql username
 7. To import MySql dump file:
 -> mysql -u root -p grocery < grocery_backup.sql
+8. http://localhost:8080/swagger-ui/index.html - Documentation
