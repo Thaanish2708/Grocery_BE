@@ -50,10 +50,10 @@ public class CategoryController {
         return productService.getProducts(categoryId);
     }
 
-    //http://localhost:8080/category/name/{categoryName}
-    @GetMapping("name/{categoryName}")
+    //http://localhost:8080/category/name/?categoryName={categoryName}
+    @GetMapping("/name")
     @Operation(summary = "Get list of products with category name", description = "Endpoint to get list of products with category name")
-    private List<ProductInputDto> getCategoryProductsName(@PathVariable(name = "categoryName")
+    private List<ProductInputDto> getCategoryProductsName(@RequestParam("categoryName")
                                                           String categoryName){
         return productService.getProductsWithCategoryName(categoryName);
     }

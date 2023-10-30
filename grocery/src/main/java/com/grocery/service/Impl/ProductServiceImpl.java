@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,9 +46,19 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductInputDto> getProductsWithCategoryName(String categoryName) {
-        Category category = categoryRepository.findByName(categoryName);
+        Category category = categoryRepository.findByNameContainingIgnoreCase(categoryName);
         return getProducts(category.getId());
     }
+
+    @Override
+    public List<ProductInputDto> searchProduct(String query) {
+        List<Product> searchResult = productRepository.findByNameContainingIgnoreCase(query);
+        if(searchResult==null){
+            return new ArrayList<>();
+        }
+        return searchResult.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
     @Override
     public ProductInputDto getProductWithId(Long productId) {
         Product product = productRepository.findById(productId).orElseThrow(()->
