@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
             return "User not found";
         }
         User user = userRepository.findByEmail(loginDto.getEmail());
-        return Objects.equals(loginDto.getPassword(), user.getPassword()) ? String.valueOf(user.getId()) :"Incorrect Password";
+        return Objects.equals(loginDto.getPassword(), user.getPassword()) ? String.valueOf(user.getId()) :null;
     }
 
     @Override

@@ -33,6 +33,4 @@ public class UserController {
     private String register(@RequestBody RegisterDto registerDto){
         return userService.register(registerDto);
     }
-
-
 }
