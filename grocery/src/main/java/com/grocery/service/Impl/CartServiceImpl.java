@@ -60,6 +60,8 @@ public class CartServiceImpl implements CartService {
                 Product product = productRepository.findById(productCartDto.getProductId()).orElseThrow(()->
                         new ResourceNotFoundException("Product not found with id"+productCartDto.getProductId()));
                 cart.setTotalValue(cart.getTotalValue() + product.getPrice() * productCartDto.getQuantity());
+                cart.setCartItemsCount((cart.getCartItemsCount()!=null? cart.getCartItemsCount():0)+productCartDto.getQuantity());
+                cartRepository.save(cart);
                 cartItemRepository.save(item);
                 return modelMapper.map(cart,CartDto.class);
             }
@@ -73,6 +75,8 @@ public class CartServiceImpl implements CartService {
         cartItems.add(cartItem);
         cart.setCartItems(cartItems);
         cart.setTotalValue(cart.getTotalValue()+ product.getPrice() * productCartDto.getQuantity());
+        cart.setCartItemsCount((cart.getCartItemsCount()!=null? cart.getCartItemsCount():0)+productCartDto.getQuantity());
+//        cart.setCartItemsCount(100);
         cartItemRepository.save(cartItem);
         userRepository.save(user);
         return modelMapper.map(cart,CartDto.class);

@@ -30,19 +30,12 @@ public class Cart {
     @UpdateTimestamp
     private LocalDateTime updatedDate;
     private double totalValue;
-//    private List<Long> productIds;
-
-//    @ManyToMany
-//    @JoinTable(name = "order_product",
-//            joinColumns = @JoinColumn(name = "order_id"),
-//            inverseJoinColumns = @JoinColumn(name = "product_id"))
-//    private List<Product> products = new ArrayList<>();
+    private Integer cartItemsCount;
 
     @OneToOne
     private User user;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JsonIgnoreProperties("cart")
     private List<CartItems> cartItems;
 
 }
