@@ -57,6 +57,9 @@ public class CartServiceImpl implements CartService {
         for (CartItems item : cartItems) {
             if (item.getProduct().getId().equals(productCartDto.getProductId())) {
                 item.setQuantity(item.getQuantity() + productCartDto.getQuantity());
+                if(item.getQuantity()==0){
+                    cartItems.remove(item);
+                }
                 Product product = productRepository.findById(productCartDto.getProductId()).orElseThrow(()->
                         new ResourceNotFoundException("Product not found with id"+productCartDto.getProductId()));
                 cart.setTotalValue(cart.getTotalValue() + product.getPrice() * productCartDto.getQuantity());
@@ -92,6 +95,7 @@ public class CartServiceImpl implements CartService {
             Cart cart = carts.get(0);
             cartDto.setCartItems(convertToDto(cart.getCartItems()));
             cartDto.setTotalValue(cart.getTotalValue());
+            cartDto.setCartItemsCount(cart.getCartItemsCount());
             return cartDto;
         } else {
             return cartDto;
