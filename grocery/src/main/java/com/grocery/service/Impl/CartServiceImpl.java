@@ -13,13 +13,14 @@ import com.grocery.repository.CartRepository;
 import com.grocery.repository.ProductRepository;
 import com.grocery.repository.UserRepository;
 import com.grocery.service.CartService;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -100,6 +101,39 @@ public class CartServiceImpl implements CartService {
         } else {
             return cartDto;
         }
+    }
+
+    @Override
+    @Transactional
+    public CartDto removeItemInCart(Long userId, ProductCartDto productCartDto) {
+        User user = userRepository.findById(userId).orElseThrow(()->
+                new ResourceNotFoundException("User not found with id "+ userId));
+        Cart cart = user.getCart();
+        List<CartItems> cartItemsList = cart.getCartItems();
+        CartItems cartItems=null;
+        for (CartItems c:cartItemsList){
+            if (c.getProduct().getId().equals(productCartDto.getProductId())){
+                cartItems = c;
+            }
+        }
+        int reducedQty = cartItems.getQuantity()- productCartDto.getQuantity();
+        if(reducedQty==0){
+            cartItemsList.remove(cartItems);
+            cartItemRepository.delete(cartItems);
+        }
+        else{
+            cartItems.setQuantity(reducedQty);
+            cartItemRepository.save(cartItems);
+        }
+        cart.setTotalValue(cart.getTotalValue()-(productCartDto.getQuantity() *cartItems.getProduct().getPrice()));
+        cart.setCartItemsCount(cart.getCartItemsCount()-productCartDto.getQuantity());
+        cartRepository.save(cart);
+        CartDto cartDto = new CartDto();
+        cartDto.setCartItems(convertToDto(cart.getCartItems()));
+        cartDto.setTotalValue(cart.getTotalValue());
+        cartDto.setCartItemsCount(cart.getCartItemsCount());
+
+        return cartDto;
     }
 
     private List<CartItemDto> convertToDto(List<CartItems> cartItems) {

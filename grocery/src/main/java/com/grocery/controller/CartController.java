@@ -1,10 +1,6 @@
 package com.grocery.controller;
 
-import com.grocery.entity.Cart;
-import com.grocery.entity.CartItems;
-import com.grocery.entity.Product;
 import com.grocery.payload.CartDto;
-import com.grocery.payload.CartItemDto;
 import com.grocery.payload.ProductCartDto;
 import com.grocery.service.CartService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 @CrossOrigin("http://localhost:3000/")
 @RestController
 @RequestMapping("/users")
@@ -37,4 +32,9 @@ public class CartController {
         return cartService.getCartItems(userId);
     }
 
+    @DeleteMapping("{userId}/cart/remove")
+    private CartDto removeItemInCart(@PathVariable(name = "userId") Long userId,
+                                             @RequestBody ProductCartDto productCartDto){
+         return cartService.removeItemInCart(userId, productCartDto);
+    }
 }
