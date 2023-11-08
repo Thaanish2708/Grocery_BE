@@ -33,6 +33,7 @@ public class CartController {
     }
 
     @DeleteMapping("{userId}/cart/remove")
+    @Operation(summary = "Remove a product from Cart with user id", description = "Endpoint to remove a product from create a cart with user id")
     private CartDto removeItemInCart(@PathVariable(name = "userId") Long userId,
                                              @RequestBody ProductCartDto productCartDto){
          return cartService.removeItemInCart(userId, productCartDto);

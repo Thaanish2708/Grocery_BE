@@ -37,6 +37,6 @@ public class ProductController {
     @GetMapping("/search")
     @Operation(summary = "Search product with name", description = "Endpoint to get a product")
     private List<ProductInputDto> searchProduct(@RequestParam("query") String query){
-        return productService.searchProduct(query);
+        return productService.searchProduct(query,"name","ASC");
     }
 }

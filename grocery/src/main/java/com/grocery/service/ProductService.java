@@ -13,5 +13,5 @@ public interface ProductService {
 
     List<ProductInputDto> getProductsWithCategoryName(String categoryName);
 
-    List<ProductInputDto> searchProduct(String query);
+    List<ProductInputDto> searchProduct(String query,String sortField, String sortOrder);
 }

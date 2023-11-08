@@ -9,6 +9,7 @@ import com.grocery.repository.ProductRepository;
 import com.grocery.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -51,8 +52,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductInputDto> searchProduct(String query) {
-        List<Product> searchResult = productRepository.findByNameContainingIgnoreCase(query);
+    public List<ProductInputDto> searchProduct(String query,String sortField, String sortOrder) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortOrder), sortField);
+        List<Product> searchResult = productRepository.findByNameContainingIgnoreCase(query,sort);
         if(searchResult==null){
             return new ArrayList<>();
         }
