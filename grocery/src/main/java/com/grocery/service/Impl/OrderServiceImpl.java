@@ -5,9 +5,11 @@ import com.grocery.exception.ResourceNotFoundException;
 import com.grocery.payload.CartDto;
 import com.grocery.payload.CartItemDto;
 import com.grocery.payload.OrderDto;
+import com.grocery.repository.CartRepository;
 import com.grocery.repository.OrderRepository;
 import com.grocery.repository.UserRepository;
 import com.grocery.service.OrderService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,10 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private CartRepository cartRepository;
     @Override
+    @Transactional
     public OrderDto createOrder(Long userId, CartDto cart) {
         User user = userRepository.findById(userId).orElseThrow(()->
                 new ResourceNotFoundException("User not found with id: "+userId));
@@ -44,6 +49,7 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus("PENDING");
         OrderDto orderDto = modelMapper.map(order,OrderDto.class);
         orderRepository.save(order);
+        cartRepository.deleteById(cartId);
         return orderDto;
     }
 

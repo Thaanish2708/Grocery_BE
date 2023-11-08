@@ -54,7 +54,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductInputDto> searchProduct(String query,String sortField, String sortOrder) {
         Sort sort = Sort.by(Sort.Direction.fromString(sortOrder), sortField);
-        List<Product> searchResult = productRepository.findByNameContainingIgnoreCase(query,sort);
+        List<Product> searchResult = productRepository.findByNameStartsWithIgnoreCase(query);
         if(searchResult==null){
             return new ArrayList<>();
         }
