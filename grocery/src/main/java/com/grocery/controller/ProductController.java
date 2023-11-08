@@ -1,5 +1,6 @@
 package com.grocery.controller;
 
+import com.grocery.constants.Constants;
 import com.grocery.payload.ProductInputDto;
 import com.grocery.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,6 +38,6 @@ public class ProductController {
     @GetMapping("/search")
     @Operation(summary = "Search product with name", description = "Endpoint to get a product")
     private List<ProductInputDto> searchProduct(@RequestParam("query") String query){
-        return productService.searchProduct(query,"name","ASC");
+        return productService.searchProduct(query, Constants.NAME,Constants.ASCENDING);
     }
 }

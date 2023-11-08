@@ -21,6 +21,10 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String status;
+
+    private Integer orderItemsCount;
+
     private double totalValue;
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -28,5 +32,7 @@ public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItems> orderItems;
+
+
 
 }

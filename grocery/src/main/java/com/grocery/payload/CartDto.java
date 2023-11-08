@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 
 public class CartDto {
-//    private Long id;
+    private Long id;
     private List<CartItemDto> cartItems;
     private double totalValue;
     private Integer cartItemsCount;
