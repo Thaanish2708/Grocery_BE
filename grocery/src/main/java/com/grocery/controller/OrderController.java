@@ -15,7 +15,7 @@ import java.util.List;
 @CrossOrigin("http://localhost:3000/")
 @RestController
 @RequestMapping("/orders")
-@Tag(name = "Cart Controller", description = "Operations pertaining to cart entities")
+@Tag(name = "Order Controller", description = "Operations pertaining to order entities")
 public class OrderController {
 
     @Autowired

@@ -67,6 +67,8 @@ public class CartServiceImpl implements CartService {
                 cart.setCartItemsCount((cart.getCartItemsCount()!=null? cart.getCartItemsCount():0)+productCartDto.getQuantity());
                 cartRepository.save(cart);
                 cartItemRepository.save(item);
+                CartDto cartDto = new CartDto();
+                cartDto.setId(cart.getId());
                 return modelMapper.map(cart,CartDto.class);
             }
         }
