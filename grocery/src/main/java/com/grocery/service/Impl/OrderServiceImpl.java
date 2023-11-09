@@ -78,6 +78,13 @@ public class OrderServiceImpl implements OrderService {
         return successOrders.stream().map(this::convertToOrderDto).collect(Collectors.toList());
     }
 
+    @Override
+    public OrderDto getOrderById(Long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(()->
+                new ResourceNotFoundException("Order Not found with id: "+orderId));
+        return modelMapper.map(order,OrderDto.class);
+    }
+
     private OrderDto convertToOrderDto(Order order) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(order, OrderDto.class);

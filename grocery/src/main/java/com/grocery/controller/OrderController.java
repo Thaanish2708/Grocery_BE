@@ -38,4 +38,10 @@ public class OrderController {
     private List<OrderDto> getAllSuccessfulOrders(@PathVariable(name = "userId") Long userId){
         return orderService.getSuccessOrders(userId);
     }
+
+    @GetMapping("/fetch/{orderId}")
+    @Operation(summary = "Get order of a user with order id", description = "Endpoint to get order")
+    private OrderDto getOrderWithId(@PathVariable(name = "orderId") Long orderId){
+        return orderService.getOrderById(orderId);
+    }
 }
