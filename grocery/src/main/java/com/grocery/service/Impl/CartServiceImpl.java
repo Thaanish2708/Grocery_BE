@@ -95,6 +95,7 @@ public class CartServiceImpl implements CartService {
         List<Cart> carts = cartRepository.findByUserId(userId);
         if (!carts.isEmpty()) {
             Cart cart = carts.get(0);
+            cartDto.setId(cart.getId());
             cartDto.setCartItems(convertToDto(cart.getCartItems()));
             cartDto.setTotalValue(cart.getTotalValue());
             cartDto.setCartItemsCount(cart.getCartItemsCount());
