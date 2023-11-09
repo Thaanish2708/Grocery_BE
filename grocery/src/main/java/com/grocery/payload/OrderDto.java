@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 
 public class OrderDto {
-//    private Long id;
+    private Long id;
     private List<OrderItemDto> orderItems;
     private double totalValue;
     private String status;

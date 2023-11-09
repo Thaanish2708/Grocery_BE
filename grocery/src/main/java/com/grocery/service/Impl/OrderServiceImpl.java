@@ -33,12 +33,15 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private CartRepository cartRepository;
     @Override
-    @Transactional
+//    @Transactional
     public OrderDto createOrder(Long userId, CartDto cart) {
         User user = userRepository.findById(userId).orElseThrow(()->
                 new ResourceNotFoundException("User not found with id: "+userId));
         Long cartId = cart.getId();
         Order order = new Order();
+        Long orderId = order.getId();
+        System.out.println("Order Id: "+order.getId());
+        System.out.println("Order stat: "+order.getStatus());
         List<CartItems> cartItemsList = cart.getCartItems().stream()
                 .map(cartItemDto -> modelMapper.map(cartItemDto, CartItems.class))
                 .toList();;
@@ -47,7 +50,11 @@ public class OrderServiceImpl implements OrderService {
         order.setTotalValue(cart.getTotalValue());
         order.setOrderItemsCount(cart.getCartItemsCount());
         order.setStatus("PENDING");
+//        OrderDto orderDto;
+
         OrderDto orderDto = modelMapper.map(order,OrderDto.class);
+//        orderDto.setId(orderId);
+        System.out.println(orderDto.getId());
         orderRepository.save(order);
         cartRepository.deleteById(cartId);
         return orderDto;
@@ -66,7 +73,7 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDto> getSuccessOrders(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(()->
                 new ResourceNotFoundException("User ID not found"));
-        List<Order> successOrders = orderRepository.findByStatus("SUCCESS", String.valueOf(userId));
+        List<Order> successOrders = orderRepository.findByStatus( String.valueOf(userId));
 
         return successOrders.stream().map(this::convertToOrderDto).collect(Collectors.toList());
     }
